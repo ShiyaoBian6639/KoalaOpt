@@ -51,4 +51,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\homberger_1000\C1_10_1.TXT">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\solomon-100\c101.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\pdptw1000\LC1_10_1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

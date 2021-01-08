@@ -161,6 +161,11 @@
     <ClInclude Include="solve.hpp" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\homberger_1000\C1_10_1.TXT" />
+    <Text Include="data\pdptw1000\LC1_10_1.txt" />
+    <Text Include="data\solomon-100\c101.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
