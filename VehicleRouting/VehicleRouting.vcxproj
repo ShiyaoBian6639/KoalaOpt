@@ -155,11 +155,11 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IO\read.h" />
-    <ClInclude Include="performance.h" />
+    <ClInclude Include="IO\read.hpp" />
+    <ClInclude Include="performance.hpp" />
     <ClInclude Include="solution.hpp" />
-    <ClInclude Include="solve.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="solve.hpp" />
+    <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

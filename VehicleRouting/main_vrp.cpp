@@ -2,9 +2,9 @@
 //
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include"IO/read.h"
-#include"solve.h"
-#include"performance.h"
+#include"IO/read.hpp"
+#include"solve.hpp"
+#include"performance.hpp"
 
 
 

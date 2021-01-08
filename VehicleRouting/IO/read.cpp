@@ -1,5 +1,5 @@
 
-#include"read.h"
+#include"read.hpp"
 
 /* class methods of "Read" */
 string Read::getFileName() {

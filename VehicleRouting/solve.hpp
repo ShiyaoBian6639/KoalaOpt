@@ -2,8 +2,8 @@
 #ifndef _PREPROCESS
 #define _PREPROCESS
 
-#include"IO/read.h"
-#include"utils.h"
+#include"IO/read.hpp"
+#include"utils.hpp"
 
 class Solve : public Read {
 	
