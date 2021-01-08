@@ -148,14 +148,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IO\read.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_vrp.cpp" />
     <ClCompile Include="performance.cpp" />
+    <ClCompile Include="solution.cpp" />
     <ClCompile Include="solve.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IO\read.h" />
     <ClInclude Include="performance.h" />
+    <ClInclude Include="solution.hpp" />
     <ClInclude Include="solve.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
