@@ -3,17 +3,23 @@
 void Read::read(void) /* main function for reading mps file */
 {
     auto begin = chrono::steady_clock::now();
-    boost::iostreams::mapped_file mmap(aFileName, boost::iostreams::mapped_file::readonly);
-    auto f = mmap.const_data();
-    auto l = f + mmap.size();
+    ifstream file(aFileName);
+    string line;
+    char word;
+    int count = 0;
+    typedef vector<string> list_type;
+    list_type list;
+    /* read instance name */
 
-    uintmax_t m_numLines = 0;
-    while (f && f != l) {
-        if ((f = static_cast<const char*>(memchr(f, '\n', l - f)))) {
-            m_numLines++, f++;
-            cout << f << endl;
-        }
+    while (file >> line >> word) //getline(file, line)
+    {
+        cout << line << endl;
+        if (word == '\n')
+            cout << "this is newline" << endl;
+
     }
-
-    cout << "m_numLines = " << m_numLines << "\n";
+    cout << "number of lines: " << count << endl;
+    auto end = chrono::steady_clock::now();
+    chrono::duration<double> elapsed = end - begin;
+    cout << "Reading instance " << aInstanceName << " takes " << elapsed.count() << " seconds" << endl;
 }

@@ -1,13 +1,18 @@
 #ifndef _READ
 #define _READ
 
-#include <boost/iostreams/device/mapped_file.hpp> 
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
+#include <fstream> 
 #include <algorithm>  
 #include <iostream>   
-#include <cstring>
+#include <string>
 #include<chrono>
+#include<vector>
+#include<unordered_map>
 
 using namespace std;
+using namespace boost;
 
 class Read {
 
