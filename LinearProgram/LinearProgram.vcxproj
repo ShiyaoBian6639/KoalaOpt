@@ -148,6 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LinearProgram.cpp" />
+    <ClCompile Include="read.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="read.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
