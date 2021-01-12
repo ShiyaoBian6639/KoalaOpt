@@ -1,5 +1,5 @@
-#include"solve.h"
-#include"utils.h"
+#include"solve.hpp"
+#include"utils.hpp"
 
 
 vector<vector<float>> Solve::preprocess()
