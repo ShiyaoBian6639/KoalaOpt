@@ -11,7 +11,6 @@ class Solve : public Read {
 
 public:
 
-
 	vector<vector<float>> preprocess();
 	vector<float> coord2angle();
 	vector<int> argsort();

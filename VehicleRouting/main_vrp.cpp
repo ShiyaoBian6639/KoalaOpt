@@ -25,7 +25,6 @@ int main()
     solution.insertCustomer(1, 0, 1);
     solution.printRoute(0, 5);
 
-
     cout << endl << "The whole program takes " << elapsed.count() << " seconds" << endl;
     return 0;
     /* performance benchmark */
