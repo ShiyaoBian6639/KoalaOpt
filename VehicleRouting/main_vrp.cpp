@@ -5,7 +5,7 @@
 #include"IO/read.hpp"
 #include"solve.hpp"
 #include"performance.hpp"
-
+#include"solution.hpp"
 
 using namespace std;
 
@@ -21,9 +21,12 @@ int main()
     auto end = chrono::steady_clock::now();
     chrono::duration<double> elapsed = end - begin;
 
+    Solution solution(sol.customer, sol.numVehicle);
+    solution.insertCustomer(1, 0, 1);
+    solution.printRoute(0, 5);
+
+
     cout << endl << "The whole program takes " << elapsed.count() << " seconds" << endl;
-
-
     return 0;
     /* performance benchmark */
     //perf_bench();
