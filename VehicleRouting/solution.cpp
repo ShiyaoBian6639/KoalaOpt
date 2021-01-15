@@ -1,8 +1,11 @@
 #include"solution.hpp"
 
-void Solution::insertCustomer(int customerIndex, int routeIndex, int position)
+int Solution::insertCustomer(int customerIndex, int routeIndex, int position)
 {
+	aCapacity[routeIndex] += aCustomer[routeIndex][2];
+	if aCapacity[routeIndex] < aCapacity
 	aRoute[routeIndex].insert(aRoute[routeIndex].begin() + position, customerIndex);
+	
 }
 
 void Solution::printRoute(int begin, int end)

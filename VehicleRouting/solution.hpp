@@ -10,16 +10,23 @@ class Solution {
 
 public:
 
+	/* customer */
+	vector<vector<int>> aCustomer;
+	int aNumVehicle;
+	int aMaxCapacity;
+
 	/* route represenetation */
 	vector<vector<int>> aRoute;
 	vector<int> aRouteLength;
 
 	/* capacity and slacks */
+	vector<float> aCapacity;
 	vector<float> aCapacityViolation;
 	vector<vector<float>> aForwardCapacitySlack;
 	vector<vector<float>> aBackwardCapacitySlack;
 
 	/* timewindow and slacks */
+	vector<float> aTimeWindow;
 	vector<float> aTimeViolation;
 	vector<vector<float>> aForwardTimeSlack;
 	vector<vector<float>> aBackwardTimeSlack;
@@ -28,8 +35,12 @@ public:
 	int aActivateRouteIndex = 0;
 
 public:
-	Solution(vector<vector<int>> customer,  int numVehicle) /* constructor */
+	Solution(vector<vector<int>> customer,  int numVehicle, int maxCapacity) /* constructor */
 	{
+		aCustomer = customer;
+		aNumVehicle = numVehicle;
+		aMaxCapacity = maxCapacity;
+
 		vector<int> currentRoute = { 0, 0 };
 		int currentRouteLength = 0;
 		float currentViolation = 0.0;
@@ -40,10 +51,12 @@ public:
 			aRoute.push_back(currentRoute);
 			aRouteLength.push_back(currentRouteLength);
 			/* capacity */
+			aCapacity.push_back(currentViolation);
 			aCapacityViolation.push_back(currentViolation);
 			aForwardCapacitySlack.push_back(currentSlack);
 			aBackwardCapacitySlack.push_back(currentSlack);
 			/* time window */
+			aTimeWindow.push_back(currentViolation);
 			aTimeViolation.push_back(currentViolation);
 			aForwardTimeSlack.push_back(currentSlack);
 			aBackwardTimeSlack.push_back(currentSlack);

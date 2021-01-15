@@ -1,9 +1,7 @@
-// GeneticAlgorithm.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include"../VehicleRouting/IO/read.hpp"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::cout << "Welcome to Koala Optimizer Genetic Solver! \n";
 }
