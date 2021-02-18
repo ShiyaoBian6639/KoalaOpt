@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InteriorPointMethod", "..\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeneticAlgorithm", "..\GeneticAlgorithm\GeneticAlgorithm.vcxproj", "{285BD364-9703-4527-817C-A0BDB8CC5046}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActiveSetMethod", "..\ActiveSetMethod\ActiveSetMethod.vcxproj", "{27C4A3B6-73AA-4B3D-8741-B19622375E60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{285BD364-9703-4527-817C-A0BDB8CC5046}.Release|x64.Build.0 = Release|x64
 		{285BD364-9703-4527-817C-A0BDB8CC5046}.Release|x86.ActiveCfg = Release|Win32
 		{285BD364-9703-4527-817C-A0BDB8CC5046}.Release|x86.Build.0 = Release|Win32
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Debug|x64.ActiveCfg = Debug|x64
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Debug|x64.Build.0 = Debug|x64
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Debug|x86.ActiveCfg = Debug|Win32
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Debug|x86.Build.0 = Debug|Win32
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Release|x64.ActiveCfg = Release|x64
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Release|x64.Build.0 = Release|x64
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Release|x86.ActiveCfg = Release|Win32
+		{27C4A3B6-73AA-4B3D-8741-B19622375E60}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
