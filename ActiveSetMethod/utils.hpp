@@ -10,8 +10,7 @@
 using namespace std;
 using namespace Eigen;
 
-void test();
-void gen_sparse_constraint();
+
 
 #endif // !ASM_UTILS
 
