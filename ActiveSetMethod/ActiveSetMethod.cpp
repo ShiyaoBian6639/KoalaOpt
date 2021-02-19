@@ -2,9 +2,10 @@
 //
 
 #include <iostream>
-
+#include"utils.hpp"
 int main()
 {
     std::cout << "Welcome to Active set method\n";
+    test();
 }
  
