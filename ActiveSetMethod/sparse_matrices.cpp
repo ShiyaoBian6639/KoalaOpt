@@ -1,4 +1,5 @@
 #include"sparse_matrices.hpp"
+#include"utils.hpp"
 
 void test()
 {
@@ -16,7 +17,7 @@ void test()
 	*/
 	SpMat A;
 	A = gen_sparse_constraint();
-	MatrixXd b = MatrixXd::Random(5, 1);
+	MatrixXd b = MatrixXd::Ones(5,1) ;
 	SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose());
 	SparseMatrix<double> Q, R;
 	Q = qr.matrixQ();
@@ -38,13 +39,26 @@ void test()
 		cout << R.innerIndexPtr()[i] << endl;
 	}
 
+	cout << "value of R: " << endl;
+	for (int i = 0; i < R.nonZeros(); i++) {
+		cout << R.valuePtr()[i] << endl;
+	}
+	
 	cout << "Matrix A dot Y" << endl << MatrixXd(A * Q) << endl;
 	MatrixXd x = R.triangularView<Upper>().transpose();
 	cout << "matrix x is: " << endl << x << endl;
 	cout << "matrix b is: " << endl << b << endl;
 	//SparseMatrix<double> Q = QR
+	x = solveSparseLowerTriangular(R, b);
+	cout << "Matrix x is" << endl << x << endl;
 
-
+	MatrixXd large = MatrixXd::Random(500, 500);
+	auto begin = chrono::steady_clock::now();
+	LLT<MatrixXd> lltOfA(large);
+	MatrixXd L = lltOfA.matrixL();
+	auto end = chrono::steady_clock::now();
+	chrono::duration<double> elapsed = end - begin;
+	cout << "dense cholesky factorization takes " << elapsed.count() << " seconds" << endl;
 }
 
 SpMat gen_sparse_constraint()

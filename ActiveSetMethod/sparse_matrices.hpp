@@ -4,10 +4,13 @@
 
 
 #include<iostream>
+#include<vector>
+#include<chrono>
+
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<Eigen/SparseQR>
-#include<vector>
+#include<Eigen/Cholesky>
 
 typedef Eigen::SparseMatrix<double> SpMat; // declares a column-major sparse matrix type of double
 typedef Eigen::Triplet<double> T;
