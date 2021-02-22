@@ -4,9 +4,11 @@
 #include <iostream>
 #include"utils.hpp"
 #include"sparse_matrices.hpp"
+
 int main()
 {
-    std::cout << "Welcome to Active set method\n";
+    cout << "Welcome to Active set method\n";
     test();
+    QuadraticProgrammingInstance qp(1000);
 }
  

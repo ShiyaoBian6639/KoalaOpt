@@ -6,17 +6,10 @@ void test()
 	MatrixXd m = MatrixXd::Random(3, 3);
 	m = m + (MatrixXd::Constant(3, 3, 1.2)) * 50;
 	cout << "m = " << endl << m << endl;
-	/*
-	* sparse matrix triplet representation
-	*/
 
-	/*
-	const Triplet<double> A_triplets[] = { { 0, 0, 0 }, { 0, 1, 2 },{ 1, 1, 1 } };
-	SparseMatrix<double> A(3, 2);
-	A.setFromTriplets(&A_triplets[0], &A_triplets[3]);
-	*/
+	// test qr decomposition
 	SpMat A;
-	A = gen_sparse_constraint();
+	A = genSparseConstraint();
 	MatrixXd b = MatrixXd::Ones(5,1) ;
 	SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose());
 	SparseMatrix<double> Q, R;
@@ -52,16 +45,25 @@ void test()
 	x = solveSparseLowerTriangular(R, b);
 	cout << "Matrix x is" << endl << x << endl;
 
-	MatrixXd large = MatrixXd::Random(500, 500);
+	// sparse cholesky decomposition 
+	MatrixXd large = MatrixXd::Random(1000, 1000);
 	auto begin = chrono::steady_clock::now();
 	LLT<MatrixXd> lltOfA(large);
 	MatrixXd L = lltOfA.matrixL();
 	auto end = chrono::steady_clock::now();
 	chrono::duration<double> elapsed = end - begin;
 	cout << "dense cholesky factorization takes " << elapsed.count() << " seconds" << endl;
+
+	// product of sparse matrices and dense matrices 
+	MatrixXd D = MatrixXd::Random(12, 12);
+	cout << "A * D :" << endl << A * D  << endl;
+
+	SpMat V = A.leftCols(5);
+	cout << " Left 5 columns of A is:  " << endl << V << endl;
+
 }
 
-SpMat gen_sparse_constraint()
+SpMat genSparseConstraint()
 {
 	vector<T> coefficients;
 	int m, n, i;

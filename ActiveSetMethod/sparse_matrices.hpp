@@ -19,5 +19,5 @@ using namespace std;
 using namespace Eigen;
 
 void test();
-SpMat gen_sparse_constraint();
+SpMat genSparseConstraint();
 #endif // !SPARSE_MATRICES

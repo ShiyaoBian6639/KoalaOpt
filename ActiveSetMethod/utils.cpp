@@ -1,7 +1,13 @@
 #include"utils.hpp"
 
-void solveEqualityConstrinedQP()
+void solveEqualityConstrinedQP(SpMat A, SpMat y, SpMat z, SpMat r, VectorXd x, VectorXd b, MatrixXd G, VectorXd c)
 {
+	MatrixXd h = A * x - b;
+	MatrixXd g = c + G * x;
+	int nrow = A.rows(); 
+}
+
+void ActiveSetMethod::solveEquConQP(){
 
 }
 
@@ -15,8 +21,8 @@ MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b)
 	int colIndex, outerIndex, row, col, count;
 	double val;
 	count = 0;
-	for (outerIndex = 0; outerIndex < A.outerSize(); outerIndex++) {
-		for (colIndex = A.outerIndexPtr()[outerIndex]; colIndex < A.outerIndexPtr()[outerIndex + 1]; colIndex++) {
+	for (outerIndex = 0; outerIndex < A.outerSize(); outerIndex++) { // iterate over outerIndex of sparse matrices
+		for (colIndex = A.outerIndexPtr()[outerIndex]; colIndex < A.outerIndexPtr()[outerIndex + 1]; colIndex++) { //
 			col = outerIndex;
 			row = A.innerIndexPtr()[count];
 			val = A.valuePtr()[count];
@@ -31,3 +37,12 @@ MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b)
 	}
 	return x;
 }
+
+MatrixXd QuadraticProgrammingInstance::genPSDMat(int n) {
+	MatrixXd temp = MatrixXd::Random(n, 5);
+	return temp * temp.transpose();
+}
+
+VectorXd QuadraticProgrammingInstance::genRHS(int n) {
+	return VectorXd::Zero(n);
+};
