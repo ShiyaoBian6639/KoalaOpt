@@ -61,6 +61,7 @@ void test()
 	SpMat V = A.leftCols(5);
 	cout << " Left 5 columns of A is:  " << endl << V << endl;
 
+
 }
 
 SpMat genSparseConstraint()

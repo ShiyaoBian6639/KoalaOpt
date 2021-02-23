@@ -6,6 +6,7 @@
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<Eigen/SparseQR>
+#include<Eigen/SPQRSupport>
 #include<vector>
 #include"sparse_matrices.hpp"
 
@@ -25,19 +26,22 @@ public:
 	MatrixXd G; // quadratic objective coefficient 
 	VectorXd c; // linear objective coefficient
 	SpMat A; // sparse constraint matrix 
-	VectorXd b; // dense rhs vector (m * 1)
 	VectorXd x; // dense vector representing initial feasible solution
+	VectorXd b; // dense rhs vector (m * 1)
 
-	QuadraticProgrammingInstance(int n){ /* constructor */
+	QuadraticProgrammingInstance(int m, int n){ /* constructor */
 		G = genPSDMat(n);
-		c = MatrixXd::Random(n, 1);
-		A = genSparseConstraint();
-		//b = genRHS(n);
+		c = VectorXd::Random(n, 1);
+		A = genSparseConstraint(m, n);
+		x = genInitialSolution(n);
+		b = genRHS(n);
 	}
 
 	/* class methods */
 	MatrixXd genPSDMat(int n);
 	VectorXd genRHS(int n);
+	VectorXd genInitialSolution(int n);
+	SpMat genSparseConstraint(int m, int n);
 
 };
 
@@ -53,16 +57,21 @@ public:
 	SpMat z;
 	SpMat r;
 	int m, n;
-	ActiveSetMethod(MatrixXd G, VectorXd c, SpMat A, VectorXd x, VectorXd b) {
+	ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px, VectorXd pb) {
+		G = pG;
+		c = pc;
+		A = pA;
+		b = pb;
+		x = px;
 		m = A.rows(); n = A.cols();
+		computeQrFactors();
 		
-		
-		SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose()); // compute sparse qr factors
-		q = qr.matrixQ();
-		r = qr.matrixR();
 	}
 
-	void solveEquConQP(); // solve the equality constrained Quadratic program using the "null space method"
+	void solveForDirection(); // solve the equality constrained Quadratic program using "null space method"
+	void solveForMultiplier();
+	void computeQrFactors();
+	void solve();
 };
 
 MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b);

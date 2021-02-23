@@ -1,16 +1,43 @@
 #include"utils.hpp"
 
-void solveEqualityConstrinedQP(SpMat A, SpMat y, SpMat z, SpMat r, VectorXd x, VectorXd b, MatrixXd G, VectorXd c)
+
+void ActiveSetMethod::solveForDirection()
 {
-	MatrixXd h = A * x - b;
-	MatrixXd g = c + G * x;
-	int nrow = A.rows(); 
+	VectorXd h = A * x - b;
+	VectorXd g = c + G * x;
+	VectorXd py = r.transpose().triangularView<Lower>().solve(-h);
+	cout << "r is :" << endl << r << endl;
+	cout << "-h is : " << endl << -h << endl;
+	cout << py << endl;
+	MatrixXd YpY = y * py;
+
+	MatrixXd ZTG = z.transpose() * G;
+	MatrixXd lhs = ZTG * z;
+	MatrixXd rhs = ZTG * y * YpY - z.transpose() * g;
+
+}
+void ActiveSetMethod::solveForMultiplier()
+{
+
+}
+void ActiveSetMethod::computeQrFactors()
+{
+	auto begin = chrono::steady_clock::now(); 
+	//Eigen::SPQR< Eigen::SparseMatrix < double > > spqrsolver(A);
+	SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose()); // compute sparse qr factors
+	q = qr.matrixQ(); // access matrix Q (Q: n * m)
+	y = q.leftCols(m); // y is the top m rows of Q (y: n * m)
+	z = q.rightCols(n - m); // z is the bottom (n - m) rows of Q  (z: n * (n - m))
+	r = qr.matrixR().topRows(m);  // access top m rows of matrix R (r: m * m)
+	auto end = chrono::steady_clock::now();
+	chrono::duration<double> elapsed = end - begin;
+	cout << "factorizing sparse constraint coefficient A takes " << elapsed.count() << " seconds" << endl;
 }
 
-void ActiveSetMethod::solveEquConQP(){
+void ActiveSetMethod::solve() 
+{
 
 }
-
 MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b) 
 /*
 * solves Ax = b where A is a sparse colomn compressed upper triangular matrix
@@ -46,3 +73,25 @@ MatrixXd QuadraticProgrammingInstance::genPSDMat(int n) {
 VectorXd QuadraticProgrammingInstance::genRHS(int n) {
 	return VectorXd::Zero(n);
 };
+
+VectorXd QuadraticProgrammingInstance::genInitialSolution(int n)
+{
+	VectorXd x = (VectorXd::Random(n) + VectorXd::Constant(n, 1.)) / 2.;
+	x /= x.sum();
+	return x;
+}
+
+SpMat QuadraticProgrammingInstance::genSparseConstraint(int m, int n)
+{
+	vector<T> coefficients;
+	int i;
+
+	for (i = 0; i < n; i++) 
+		coefficients.push_back({ 0,i,1 });
+
+	for (i = 1; i < m; i++)
+		coefficients.push_back({ i, i - 1, 1 });
+	SpMat A(m, n);
+	A.setFromTriplets(coefficients.begin(), coefficients.end());
+	return A;
+}
