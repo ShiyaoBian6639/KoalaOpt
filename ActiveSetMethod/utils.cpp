@@ -1,6 +1,30 @@
 #include"utils.hpp"
 
 
+ActiveSetMethod::ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px, VectorXd pb) // constructor of ActiveSetMethod
+{
+	G = pG;
+	c = pc;
+	A = pA;
+	b = pb;
+	x = px;
+	m = A.rows(); n = A.cols();
+}
+
+void ActiveSetMethod::computeQrFactors()
+{
+	auto begin = chrono::steady_clock::now(); 
+	//Eigen::SPQR< Eigen::SparseMatrix < double > > spqrsolver(A);
+	SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose()); // compute sparse qr factors
+	q = qr.matrixQ(); // access matrix Q (Q: n * m)
+	y = q.leftCols(m); // y is the top m rows of Q (y: n * m)
+	z = q.rightCols(n - m); // z is the bottom (n - m) rows of Q  (z: n * (n - m))
+	r = qr.matrixR().topRows(m);  // access top m rows of matrix R (r: m * m)
+	auto end = chrono::steady_clock::now();
+	chrono::duration<double> elapsed = end - begin;
+	cout << "factorizing sparse constraint coefficient A takes " << elapsed.count() << " seconds" << endl;
+}
+
 void ActiveSetMethod::solveForDirection()
 {
 	VectorXd h = A * x - b;
@@ -20,24 +44,63 @@ void ActiveSetMethod::solveForMultiplier()
 {
 
 }
-void ActiveSetMethod::computeQrFactors()
+
+int ActiveSetMethod::getMaxMultiplierIndex()
 {
-	auto begin = chrono::steady_clock::now(); 
-	//Eigen::SPQR< Eigen::SparseMatrix < double > > spqrsolver(A);
-	SparseQR<SparseMatrix<double>, COLAMDOrdering<int>> qr(A.transpose()); // compute sparse qr factors
-	q = qr.matrixQ(); // access matrix Q (Q: n * m)
-	y = q.leftCols(m); // y is the top m rows of Q (y: n * m)
-	z = q.rightCols(n - m); // z is the bottom (n - m) rows of Q  (z: n * (n - m))
-	r = qr.matrixR().topRows(m);  // access top m rows of matrix R (r: m * m)
-	auto end = chrono::steady_clock::now();
-	chrono::duration<double> elapsed = end - begin;
-	cout << "factorizing sparse constraint coefficient A takes " << elapsed.count() << " seconds" << endl;
+	int MaxMultiplierIndex = -1;
+	return MaxMultiplierIndex;
+}
+
+void ActiveSetMethod::dropActiveSet()
+{
+
+}
+
+void ActiveSetMethod::appendActiveSet()
+{
+
+}
+
+double ActiveSetMethod::getStepLength()
+{
+	// compute both step length and the blocking constraint
+	return 1.0;
 }
 
 void ActiveSetMethod::solve() 
 {
+	int MaxMultiplierIndex;
+	computeQrFactors();
 
+	while (1) 
+	{
+		solveForDirection();
+		if (direction.norm() < TOL)
+		{
+			solveForMultiplier();
+			if (getMaxMultiplierIndex() >= 0) 
+			{
+				break;
+			}
+			else 
+			{
+				dropActiveSet();
+			}
+		}
+		else
+		{
+			getStepLength();
+			x += stepLength * direction;
+			if (blockingConstraint >= 0)
+			{
+				appendActiveSet();
+			}
+		}
+	}
 }
+
+
+
 MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b) 
 /*
 * solves Ax = b where A is a sparse colomn compressed upper triangular matrix
@@ -63,6 +126,15 @@ MatrixXd solveSparseLowerTriangular(SpMat A, MatrixXd b)
 		}
 	}
 	return x;
+}
+
+QuadraticProgrammingInstance::QuadraticProgrammingInstance(int m, int n) /* constructor of QP instance  */
+{
+	G = genPSDMat(n);
+	c = VectorXd::Random(n, 1);
+	A = genSparseConstraint(m, n);
+	x = genInitialSolution(n);
+	b = genRHS(n);
 }
 
 MatrixXd QuadraticProgrammingInstance::genPSDMat(int n) {

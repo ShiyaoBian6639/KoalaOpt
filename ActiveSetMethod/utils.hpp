@@ -2,6 +2,8 @@
 #ifndef ASM_UTILS
 #define ASM_UTILS
 
+static const double TOL = 1e-5; // numerical tolerance
+
 #include<iostream>
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
@@ -29,13 +31,7 @@ public:
 	VectorXd x; // dense vector representing initial feasible solution
 	VectorXd b; // dense rhs vector (m * 1)
 
-	QuadraticProgrammingInstance(int m, int n){ /* constructor */
-		G = genPSDMat(n);
-		c = VectorXd::Random(n, 1);
-		A = genSparseConstraint(m, n);
-		x = genInitialSolution(n);
-		b = genRHS(n);
-	}
+	QuadraticProgrammingInstance(int m, int n); 
 
 	/* class methods */
 	MatrixXd genPSDMat(int n);
@@ -52,25 +48,28 @@ public:
 	SpMat A; // sparse constraint matrix 
 	MatrixXd b; // dense rhs vector (m * 1)
 	MatrixXd x; // dense vector representing initial feasible solution
-	SpMat q;
-	SpMat y;
-	SpMat z;
-	SpMat r;
-	int m, n;
-	ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px, VectorXd pb) {
-		G = pG;
-		c = pc;
-		A = pA;
-		b = pb;
-		x = px;
-		m = A.rows(); n = A.cols();
-		computeQrFactors();
-		
-	}
+	SpMat q; // orthogonal matrix (n * n)
+	SpMat y; // first m columns of q (n * m)
+	SpMat z; // null space (n * (n - m))
+	SpMat r; // sparse upper triangular matrix (n * m with first m rows fill-ins (m * m upper triangular) and the rest are 0s)
+	int m, n; // dimensions of A, m constraints and n variables 
 
+	VectorXd direction;
+	VectorXd multiplier; 
+	VectorXi activeSet; // activeSet[i] = 1 indicates the i-th constraint is active
+	double stepLength; // double between 0 and 1
+	int blockingConstraint; // -1 indicates no blocking constraint exists, non-negative integers indicates the index of blocking constraint
+
+
+	ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px, VectorXd pb);
+
+	void computeQrFactors();
 	void solveForDirection(); // solve the equality constrained Quadratic program using "null space method"
 	void solveForMultiplier();
-	void computeQrFactors();
+	int getMaxMultiplierIndex();
+	void dropActiveSet();
+	void appendActiveSet();
+	double getStepLength();
 	void solve();
 };
 
