@@ -11,7 +11,7 @@ ActiveSetMethod::ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px
 	m = A.rows(); n = A.cols();
 }
 
-void ActiveSetMethod::computeQrFactors()
+void ActiveSetMethod::getQrFactors()
 {
 	auto begin = chrono::steady_clock::now(); 
 	//Eigen::SPQR< Eigen::SparseMatrix < double > > spqrsolver(A);
@@ -27,22 +27,37 @@ void ActiveSetMethod::computeQrFactors()
 
 void ActiveSetMethod::solveForDirection()
 {
-	VectorXd h = A * x - b;
-	VectorXd g = c + G * x;
-	VectorXd py = r.transpose().triangularView<Lower>().solve(-h);
-	cout << "r is :" << endl << r << endl;
-	cout << "-h is : " << endl << -h << endl;
-	cout << py << endl;
-	MatrixXd YpY = y * py;
-
-	MatrixXd ZTG = z.transpose() * G;
-	MatrixXd lhs = ZTG * z;
-	MatrixXd rhs = ZTG * y * YpY - z.transpose() * g;
-
+	h = A * x - b;
+	cout << " a * x is: " << endl << A * x << endl;
+	g = c + G * x;
+	solveForDirectionY(); // solve for py
+	solveForDirectionZ(); // solve for pz 
+	direction = y * py + z * pz;
+	cout << "direction is : " << endl << direction << endl;
 }
+
+void ActiveSetMethod::solveForDirectionY() 
+{
+	py = r.transpose().triangularView<Lower>().solve(-h);
+	cout << "r transpose is :" << endl << r << endl;
+	cout << "-h is : " << endl << -h << endl;
+	cout << "py is: " << endl << py << endl;
+}
+
+void ActiveSetMethod::solveForDirectionZ()
+{
+	zTG = z.transpose() * G;
+	pz_lhs = zTG * z;
+	pz_rhs = zTG * y * py - z.transpose() * g;
+	pz = pz_lhs.llt().solve(pz_rhs);
+	cout << "pz is: " << endl << pz << endl;
+}
+
 void ActiveSetMethod::solveForMultiplier()
 {
-
+	lmd_rhs = y.transpose() * (g + G * direction);
+	multiplier = r.triangularView<Upper>().solve(lmd_rhs);
+	cout << "multiplier is: " << endl << multiplier << endl;
 }
 
 int ActiveSetMethod::getMaxMultiplierIndex()
@@ -61,21 +76,38 @@ void ActiveSetMethod::appendActiveSet()
 
 }
 
-double ActiveSetMethod::getStepLength()
+void ActiveSetMethod::getStepLength()
 {
 	// compute both step length and the blocking constraint
-	return 1.0;
+	VectorXd numerator = b - A.transpose() * x;
+	VectorXd denominator = A.transpose() * direction;
+	double den, num, ratio;
+	stepLength = INTMAX_MAX;
+	cout << "denum is: " << endl << denominator << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout << "i is: " << i << endl;
+		den = denominator(i);
+		if (den < 0)
+		{
+			ratio = numerator(i) / denominator(i);
+			if (ratio < stepLength)
+			{
+				stepLength = ratio;
+			}
+		}
+	}
 }
 
 void ActiveSetMethod::solve() 
 {
 	int MaxMultiplierIndex;
-	computeQrFactors();
+	getQrFactors();
 
 	while (1) 
 	{
 		solveForDirection();
-		if (direction.norm() < TOL)
+		if (direction.norm() < TOL) 
 		{
 			solveForMultiplier();
 			if (getMaxMultiplierIndex() >= 0) 
@@ -134,7 +166,7 @@ QuadraticProgrammingInstance::QuadraticProgrammingInstance(int m, int n) /* cons
 	c = VectorXd::Random(n, 1);
 	A = genSparseConstraint(m, n);
 	x = genInitialSolution(n);
-	b = genRHS(n);
+	b = genRHS(m);
 }
 
 MatrixXd QuadraticProgrammingInstance::genPSDMat(int n) {
@@ -142,8 +174,8 @@ MatrixXd QuadraticProgrammingInstance::genPSDMat(int n) {
 	return temp * temp.transpose();
 }
 
-VectorXd QuadraticProgrammingInstance::genRHS(int n) {
-	return VectorXd::Zero(n);
+VectorXd QuadraticProgrammingInstance::genRHS(int m) {
+	return VectorXd::Zero(m);
 };
 
 VectorXd QuadraticProgrammingInstance::genInitialSolution(int n)

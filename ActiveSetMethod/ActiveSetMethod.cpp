@@ -12,6 +12,6 @@ int main()
     QuadraticProgrammingInstance qp(5, 12);
     //cout << qp.A << endl;
     ActiveSetMethod ASM(qp.G, qp.c, qp.A, qp.x, qp.b);
-    ASM.solveForDirection();
+    ASM.solve();
 }
  

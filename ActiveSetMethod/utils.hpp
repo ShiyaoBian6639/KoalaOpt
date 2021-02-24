@@ -35,13 +35,14 @@ public:
 
 	/* class methods */
 	MatrixXd genPSDMat(int n);
-	VectorXd genRHS(int n);
+	VectorXd genRHS(int m);
 	VectorXd genInitialSolution(int n);
 	SpMat genSparseConstraint(int m, int n);
 
 };
 
 class ActiveSetMethod {
+
 public:
 	MatrixXd G; // quadratic objective coefficient 
 	MatrixXd c; // linear objective coefficient
@@ -54,22 +55,32 @@ public:
 	SpMat r; // sparse upper triangular matrix (n * m with first m rows fill-ins (m * m upper triangular) and the rest are 0s)
 	int m, n; // dimensions of A, m constraints and n variables 
 
-	VectorXd direction;
-	VectorXd multiplier; 
+private:
+	VectorXd h; // h = Ax - b
+	VectorXd g; // g = c + Gx 
+	VectorXd py;
+	VectorXd pz;
+	MatrixXd zTG;
+	MatrixXd pz_lhs;
+	MatrixXd pz_rhs;
+	VectorXd lmd_rhs;
+	VectorXd direction; // p
+	VectorXd multiplier; // lambda
 	VectorXi activeSet; // activeSet[i] = 1 indicates the i-th constraint is active
 	double stepLength; // double between 0 and 1
 	int blockingConstraint; // -1 indicates no blocking constraint exists, non-negative integers indicates the index of blocking constraint
 
-
+public:
 	ActiveSetMethod(MatrixXd pG, VectorXd pc, SpMat pA, VectorXd px, VectorXd pb);
-
-	void computeQrFactors();
-	void solveForDirection(); // solve the equality constrained Quadratic program using "null space method"
+	void getQrFactors(); // get qr factors of matrix A 
+	void solveForDirection(); // solve the equality constrained Quadratic program using "null space method" and modify direction
+	void solveForDirectionY();
+	void solveForDirectionZ();
 	void solveForMultiplier();
 	int getMaxMultiplierIndex();
 	void dropActiveSet();
 	void appendActiveSet();
-	double getStepLength();
+	void getStepLength();
 	void solve();
 };
 
