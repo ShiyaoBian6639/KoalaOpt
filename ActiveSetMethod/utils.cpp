@@ -19,8 +19,9 @@ void ActiveSetMethod::getQrFactors()
 	q = qr.matrixQ(); // access matrix Q (Q: n * m)
 	y = q.leftCols(m); // y is the top m rows of Q (y: n * m)
 	z = q.rightCols(n - m); // z is the bottom (n - m) rows of Q  (z: n * (n - m))
-	r = qr.matrixR().topRows(m);  // access top m rows of matrix R (r: m * m)
-	auto end = chrono::steady_clock::now();
+	r = qr.matrixR().transpose().leftCols(m);  // access top m rows of matrix R (r: m * m)
+	cout << "r is: " << endl << r << endl;
+	auto end = chrono::steady_clock::now(); 
 	chrono::duration<double> elapsed = end - begin;
 	cout << "factorizing sparse constraint coefficient A takes " << elapsed.count() << " seconds" << endl;
 }
@@ -51,6 +52,8 @@ void ActiveSetMethod::solveForDirectionZ()
 	pz_rhs = zTG * y * py - z.transpose() * g;
 	pz = pz_lhs.llt().solve(pz_rhs);
 	cout << "pz is: " << endl << pz << endl;
+	cout << "pz_lhs * pz is: " << endl << pz_lhs * pz << endl;
+	cout << "pz_rhs is: " << endl << pz_rhs << endl; 
 }
 
 void ActiveSetMethod::solveForMultiplier()
@@ -79,12 +82,14 @@ void ActiveSetMethod::appendActiveSet()
 void ActiveSetMethod::getStepLength()
 {
 	// compute both step length and the blocking constraint
-	VectorXd numerator = b - A.transpose() * x;
-	VectorXd denominator = A.transpose() * direction;
+	cout << "x: " << endl << x << endl;
+	cout << "A: " << endl << A << endl;
+	VectorXd numerator = b - A * x;
+	VectorXd denominator = A * direction;
 	double den, num, ratio;
 	stepLength = INTMAX_MAX;
-	cout << "denum is: " << endl << denominator << endl;
-	for (int i = 0; i < n; i++)
+
+	for (int i = 0; i < m; i++)
 	{
 		cout << "i is: " << i << endl;
 		den = denominator(i);
@@ -94,8 +99,14 @@ void ActiveSetMethod::getStepLength()
 			if (ratio < stepLength)
 			{
 				stepLength = ratio;
+				blockingConstraint = i;
 			}
 		}
+	}
+	if (stepLength > 1) 
+	{
+		stepLength = 1;
+		blockingConstraint = -1;
 	}
 }
 
@@ -122,6 +133,8 @@ void ActiveSetMethod::solve()
 		else
 		{
 			getStepLength();
+			cout << "step length: " << stepLength << endl;
+			cout << "blocking constraint: " << blockingConstraint << endl;
 			x += stepLength * direction;
 			if (blockingConstraint >= 0)
 			{

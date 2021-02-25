@@ -56,6 +56,8 @@ public:
 	int m, n; // dimensions of A, m constraints and n variables 
 
 private:
+	int numEqualityConstraints;
+	int numInequalityConstraints;
 	VectorXd h; // h = Ax - b
 	VectorXd g; // g = c + Gx 
 	VectorXd py;

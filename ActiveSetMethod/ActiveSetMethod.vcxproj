@@ -89,7 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,7 +137,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
