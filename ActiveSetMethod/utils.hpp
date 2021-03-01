@@ -6,7 +6,7 @@ static const double TOL = 1e-5; // numerical tolerance
 
 #include<iostream>
 
-//#define EIGEN_USE_MKL_ALL
+#define EIGEN_USE_MKL_ALL
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<Eigen/SparseQR>

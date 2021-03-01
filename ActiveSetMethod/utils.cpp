@@ -47,6 +47,9 @@ void ActiveSetMethod::solveForDirectionY()
 void ActiveSetMethod::solveForDirectionZ()
 {
 	zTG = z.transpose() * G;
+	cout << "z is: " << endl << z << endl;
+	cout << "G is: " << endl<< G << endl;
+	cout << "A is: " << endl << A << endl;
 	pz_lhs = zTG * z;
 	pz_rhs = zTG * y * py - z.transpose() * g;
 	auto begin = chrono::steady_clock::now();
