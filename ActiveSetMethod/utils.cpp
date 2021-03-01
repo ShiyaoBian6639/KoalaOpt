@@ -20,7 +20,6 @@ void ActiveSetMethod::getQrFactors()
 	y = q.leftCols(m); // y is the top m rows of Q (y: n * m)
 	z = q.rightCols(n - m); // z is the bottom (n - m) rows of Q  (z: n * (n - m))
 	r = qr.matrixR().transpose().leftCols(m);  // access top m rows of matrix R (r: m * m)
-	cout << "r is: " << endl << r << endl;
 	auto end = chrono::steady_clock::now(); 
 	chrono::duration<double> elapsed = end - begin;
 	cout << "factorizing sparse constraint coefficient A takes " << elapsed.count() << " seconds" << endl;
@@ -29,20 +28,20 @@ void ActiveSetMethod::getQrFactors()
 void ActiveSetMethod::solveForDirection()
 {
 	h = A * x - b;
-	cout << " a * x is: " << endl << A * x << endl;
+	//cout << " a * x is: " << endl << A * x << endl;
 	g = c + G * x;
 	solveForDirectionY(); // solve for py
 	solveForDirectionZ(); // solve for pz 
 	direction = y * py + z * pz;
-	cout << "direction is : " << endl << direction << endl;
+	//cout << "direction is : " << endl << direction << endl;
 }
 
 void ActiveSetMethod::solveForDirectionY() 
 {
 	py = r.transpose().triangularView<Lower>().solve(-h);
-	cout << "r transpose is :" << endl << r << endl;
-	cout << "-h is : " << endl << -h << endl;
-	cout << "py is: " << endl << py << endl;
+	//cout << "r transpose is :" << endl << r << endl;
+	//cout << "-h is : " << endl << -h << endl;
+	//cout << "py is: " << endl << py << endl;
 }
 
 void ActiveSetMethod::solveForDirectionZ()
@@ -50,17 +49,22 @@ void ActiveSetMethod::solveForDirectionZ()
 	zTG = z.transpose() * G;
 	pz_lhs = zTG * z;
 	pz_rhs = zTG * y * py - z.transpose() * g;
+	auto begin = chrono::steady_clock::now();
 	pz = pz_lhs.llt().solve(pz_rhs);
-	cout << "pz is: " << endl << pz << endl;
-	cout << "pz_lhs * pz is: " << endl << pz_lhs * pz << endl;
-	cout << "pz_rhs is: " << endl << pz_rhs << endl; 
+	auto end = chrono::steady_clock::now();
+	chrono::duration<double> elapsed = end - begin;
+	cout << "factorizing dense zTGz takes " << elapsed.count() << " seconds" << endl;
+	cout << "solving direction z " << endl << "factorizing matrix of " << pz_lhs.rows() << " * " << pz_lhs.cols() << endl;
+	//cout << "pz is: " << endl << pz << endl;
+	//cout << "pz_lhs * pz is: " << endl << pz_lhs * pz << endl;
+	//cout << "pz_rhs is: " << endl << pz_rhs << endl; 
 }
 
 void ActiveSetMethod::solveForMultiplier()
 {
 	lmd_rhs = y.transpose() * (g + G * direction);
 	multiplier = r.triangularView<Upper>().solve(lmd_rhs);
-	cout << "multiplier is: " << endl << multiplier << endl;
+	//cout << "multiplier is: " << endl << multiplier << endl;
 }
 
 int ActiveSetMethod::getMaxMultiplierIndex()
@@ -82,8 +86,8 @@ void ActiveSetMethod::appendActiveSet()
 void ActiveSetMethod::getStepLength()
 {
 	// compute both step length and the blocking constraint
-	cout << "x: " << endl << x << endl;
-	cout << "A: " << endl << A << endl;
+	//cout << "x: " << endl << x << endl;
+	//cout << "A: " << endl << A << endl;
 	VectorXd numerator = b - A * x;
 	VectorXd denominator = A * direction;
 	double den, num, ratio;
@@ -91,7 +95,7 @@ void ActiveSetMethod::getStepLength()
 
 	for (int i = 0; i < m; i++)
 	{
-		cout << "i is: " << i << endl;
+		//cout << "i is: " << i << endl;
 		den = denominator(i);
 		if (den < 0)
 		{

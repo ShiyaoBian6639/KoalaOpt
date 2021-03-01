@@ -1,8 +1,7 @@
 #ifndef _READ
 #define _READ
 
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string.hpp>
+
 #include <fstream> 
 #include <algorithm>  
 #include <iostream>   
@@ -12,7 +11,6 @@
 #include<unordered_map>
 
 using namespace std;
-using namespace boost;
 
 class Read {
 

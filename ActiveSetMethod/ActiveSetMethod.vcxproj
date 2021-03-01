@@ -72,6 +72,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\bin\ia32;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\lib\ia32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,13 +91,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;C:\Program Files (x86)\Intel\oneAPI\tbb\2021.1.1\include\tbb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\lib\ia32;C:\Program Files (x86)\Intel\oneAPI\tbb\2021.1.1\lib\ia32\vc14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mkl_intel_c.lib;mkl_sequential.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Inputs>mkl_intel_c_dll.lib mkl_tbb_thread_dll.lib mkl_core_dll.lib tbb.lib;%(Inputs)</Inputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -105,7 +113,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\安装文件\SuiteSparse;D:\安装文件\eigen-3.3.9\eigen-3.3.9;D:\安装文件\SuiteSparse\CHOLMOD\Include;D:\安装文件\SuiteSparse\SuiteSparse_config;D:\安装文件\SuiteSparse\SPQR\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
+      <Optimization>Full</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
