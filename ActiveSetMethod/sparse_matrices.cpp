@@ -66,7 +66,15 @@ void test()
 	MatrixXd large3 = large1 * large2;
 
 	//benchmark matrix multiplication 
-
+	MatrixXf large4;
+	begin = chrono::steady_clock::now();
+	for (int i = 0; i < 100; i++)
+	{
+		large4 = MatrixXf::Random(1000, 1000) * MatrixXf::Random(1000, 1000);
+	}
+	end = chrono::steady_clock::now();
+	elapsed = end - begin;
+	cout << "Dense matrix multiplication takes " << elapsed.count() / 100 << " seconds" << endl;
 }
 
 SpMat genSparseConstraint()

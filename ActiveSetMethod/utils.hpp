@@ -2,11 +2,13 @@
 #ifndef ASM_UTILS
 #define ASM_UTILS
 
+#define EIGEN_USE_MKL_ALL
+
 static const double TOL = 1e-5; // numerical tolerance
 
 #include<iostream>
 
-#define EIGEN_USE_MKL_ALL
+
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<Eigen/SparseQR>

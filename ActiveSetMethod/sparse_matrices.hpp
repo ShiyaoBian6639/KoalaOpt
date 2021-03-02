@@ -7,6 +7,8 @@
 #include<vector>
 #include<chrono>
 
+#define EIGEN_USE_MKL_ALL
+
 #include<Eigen/Dense>
 #include<Eigen/Sparse>
 #include<Eigen/SparseQR>

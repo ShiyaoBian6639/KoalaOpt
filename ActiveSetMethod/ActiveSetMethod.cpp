@@ -10,7 +10,6 @@ int main()
     cout << "Welcome to Active set method\n";
     test();
     QuadraticProgrammingInstance qp(500, 1200);
-    //cout << qp.A << endl;
     ActiveSetMethod ASM(qp.G, qp.c, qp.A, qp.x, qp.b);
     ASM.solve();
 }

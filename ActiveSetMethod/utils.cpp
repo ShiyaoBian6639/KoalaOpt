@@ -47,9 +47,9 @@ void ActiveSetMethod::solveForDirectionY()
 void ActiveSetMethod::solveForDirectionZ()
 {
 	zTG = z.transpose() * G;
-	cout << "z is: " << endl << z << endl;
-	cout << "G is: " << endl<< G << endl;
-	cout << "A is: " << endl << A << endl;
+	//cout << "z is: " << endl << z << endl;
+	//cout << "G is: " << endl<< G << endl;
+	//cout << "A is: " << endl << A << endl;
 	pz_lhs = zTG * z;
 	pz_rhs = zTG * y * py - z.transpose() * g;
 	auto begin = chrono::steady_clock::now();
@@ -119,10 +119,11 @@ void ActiveSetMethod::getStepLength()
 
 void ActiveSetMethod::solve() 
 {
+	auto begin = chrono::steady_clock::now();
 	int MaxMultiplierIndex;
 	getQrFactors();
-
-	while (1) 
+	
+	for (int iter = 0; iter < 10; iter++)
 	{
 		solveForDirection();
 		if (direction.norm() < TOL) 
@@ -149,6 +150,9 @@ void ActiveSetMethod::solve()
 			}
 		}
 	}
+	auto end = chrono::steady_clock::now();
+	chrono::duration<double> elapsed = end - begin;
+	cout << "Solving instance takes " << elapsed.count() << " seconds" << endl;
 }
 
 
