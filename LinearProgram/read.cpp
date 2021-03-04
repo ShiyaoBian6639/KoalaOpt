@@ -1,40 +1,75 @@
 #include"read.hpp"
 
-Read::Read(string rFileName)
+
+Read::Read(const char* rFileName)
 {
     aFileName = rFileName;
-    file.open(aFileName, ios_base::in);
+    file.open(aFileName);
+    if (!file)
+    {
+        cout << "Can not open " << aFileName << endl;
+        return;
+    }
 }
 
 void Read::read(void) /* main function for reading mps file */
 {
     auto begin = chrono::steady_clock::now();
-    getInstanceName(); 
-    while (getline(file, line))
-    {
-        cout << line << endl;
-    }
-    cout << "NUM_LINE: " << NUM_LINE << endl; 
-    cout << "NUM_words: " << NUM_NNZ << endl;
+    getInstanceName();
+    getRows();
+    cout << "instance name: " << aInstanceName << endl;
     auto end = chrono::steady_clock::now();
     chrono::duration<double> elapsed = end - begin;
-    cout << "reading takes " << elapsed.count() << " seconds" << endl;
+    cout << "reading " << aInstanceName << " takes " << elapsed.count() << " seconds" << endl;
+    cout << NUM_LINE << endl;
 }
 
-void Read::getInstanceName()
+void Read::getInstanceName(void)
 {
-    while (getline(file, line)) //
+    vector<string> parsedLine;
+    while (getline(file, line))
+    {
+        parsedLine = string2vec(line);
+        if (parsedLine[0].compare("NAME") == 0)
+        {
+            aInstanceName = parsedLine[1];
+            break;
+        }
+    }
+}
+
+void Read::getRows()
+{
+    while (getline(file, line))
     {
 
-        if (line[0] != '*')
-        {
-            boost::split(result, line, boost::is_any_of("\t "), boost::token_compress_on);
-            if (result[0].compare("NAME") == 0) 
-            {
-                aInstanceName = result[1];
-                break;
-            }
-        }
-        NUM_LINE++;
     }
+}
+
+vector<string> Read::string2vec(string line)
+{
+    int i = 0;
+    int j = 0;
+    vector<string> res;
+    string word;
+    while (isspace(line[i])) // remove leading spaces 
+        i++;
+    while (line[i])
+    {
+        if (isspace(line[i]))
+        {
+            while (isspace(line[i]))
+                i++;
+            res.push_back(word);
+            word.clear();
+            j = 0;
+        }
+        else
+        {
+            word.push_back(line[i]);
+            i++;
+        }
+    }
+    res.push_back(word);
+    return res;
 }
