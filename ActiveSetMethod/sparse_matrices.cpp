@@ -61,8 +61,8 @@ void test()
 	SpMat V = A.leftCols(5);
 	cout << " Left 5 columns of A is:  " << endl << V << endl;
 
-	MatrixXf large1 = MatrixXf::Random(1000, 1000);
-	MatrixXf large2 = MatrixXf::Random(1000, 1000);
+	MatrixXf large1 = MatrixXf::Random(1000, 10000);
+	MatrixXf large2 = MatrixXf::Random(10000, 1000);
 	MatrixXf large3 = large1 * large2;
 
 	//benchmark matrix multiplication 

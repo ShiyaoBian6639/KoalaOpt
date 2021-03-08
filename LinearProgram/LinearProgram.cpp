@@ -10,7 +10,8 @@ int main()
     input.string2vec("df  df   da");
     input.read();
 
-
+    
+    //oneapi::mkl::sparse::set_csr_data();
 
     return 0;
 }

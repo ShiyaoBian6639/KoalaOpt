@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;C:\Program Files (x86)\Intel\oneAPI\compiler\2021.1.1\windows\include\sycl</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;C:\Program Files (x86)\Intel\oneAPI\compiler\2021.1.1\windows\include\sycl</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
@@ -172,7 +172,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;C:\Program Files (x86)\Intel\oneAPI\compiler\2021.1.1\windows\include\sycl</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
@@ -199,7 +199,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\安装文件\eigen-3.3.9\eigen-3.3.9;C:\Program Files (x86)\Intel\oneAPI\mkl\2021.1.1\include;C:\Program Files (x86)\Intel\oneAPI\compiler\2021.1.1\windows\include\sycl</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>

@@ -123,7 +123,7 @@ void ActiveSetMethod::solve()
 	int MaxMultiplierIndex;
 	getQrFactors();
 	
-	for (int iter = 0; iter < 10; iter++)
+	for (int iter = 0; iter < 5; iter++)
 	{
 		solveForDirection();
 		if (direction.norm() < TOL) 

@@ -15,7 +15,7 @@ static const double TOL = 1e-5; // numerical tolerance
 //#include<Eigen/SPQRSupport>
 #include<vector>
 #include"sparse_matrices.hpp"
-
+#include<oneapi/mkl/spblas.hpp>
 typedef Eigen::SparseMatrix<double> SpMat; // declares a column-major sparse matrix type of double
 typedef Eigen::Triplet<double> T;
 
