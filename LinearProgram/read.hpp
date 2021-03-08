@@ -1,28 +1,28 @@
 #ifndef _READ
 #define _READ
-
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <fstream> 
-#include <algorithm>  
 #include <iostream>   
 #include <string>
-#include <sstream> 
 #include<chrono>
 #include<vector>
-#include<boost/algorithm/string.hpp>
-#include<boost/tokenizer.hpp>
+
 #include<unordered_map>
 
 using namespace std;
+
+const int STR_SIZE = 256;
+const int WORD_SIZE = 64;
 
 class Read {
 
 private:
 	string aInstanceName;
-	string aFileName;
+	const char* aFileName;
 	ifstream file;
 	string line;
-	vector<string> result;
+	unordered_map<char*, int> aRowMap;
 	int NUM_NNZ = 0;  // number of non-zeros
 	int NUM_LINE = 0;  // number of lines in file
 	int NUM_VARS = 0;  // number of variables (columns)
@@ -30,10 +30,12 @@ private:
 
 
 public:
-	Read(string rFileName);
+	Read(const char* rFileName);
 
 	void read(void);
 	void getInstanceName(void);
+	void getRows(void);
+	vector<string> string2vec(string line);
 };
 
 
